@@ -37,7 +37,7 @@
 	$nota04 = 02;
 	$resultado = 0;
 
-	$media = $nota01+$nota02+$nota03+$nota04;
+	$media = ($nota01+$nota02+$nota03+$nota04)/4;
 	echo "Media = ".$media." - ";
 
 	if ($media >= 7) {
@@ -58,4 +58,20 @@
 	default:
 	echo "Reprovado";
 }
+
+echo("<hr>");
+
+//Exercicio02
+	// Crie duas variaveis $sexo e $tempo_de_serviço e sabendo que homens só se aposentam com pelo menos 35 anos de serviço e mulheres com pelo menos 30, crie o script php que diz se a pessoa pode se aposentar ou nao.
+
+	$sexo = "mulher";
+	$tempo = 30;
+
+	if ($sexo == "mulher" && $tempo >= 30 || $sexo == "homem" && $tempo >= 35) {
+		echo "Aposentou";
+	} else {
+		echo "Não aposentou";
+	}
+
+
 ?>
