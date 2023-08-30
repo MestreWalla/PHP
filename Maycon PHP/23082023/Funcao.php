@@ -24,5 +24,8 @@
 // - o salário líquido.
 // - calcule os descontos e o salário líquido, conforme a tabela abaixo:
 
+	function SalarioB($Salario, $IR, $INSS, $Sindicato){
+		return($Salario-$IR-$INSS-$Sindicato);
+	}
 
 ?>

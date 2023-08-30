@@ -25,8 +25,15 @@ echo "<br>";
 echo "<hr>";
 
 // Exercicio03
-
-
+$Gh = $_POST['Gh'];
+$Hm = $_POST['Hm'];
+$Salario = ($Gh*$Hm);
+$IR = $Salario*"0.11";
+$INSS = $Salario*"0.08";
+$Sindicato = $Salario*"0.05";
+// $SalarioB = $Salario-$IR-$INSS-$Sindicato;
+$SalarioBruto = SalarioB($Salario, $IR, $INSS, $Sindicato);
+echo "Seu salário Bruto é: R$ $SalarioBruto";
 
 echo "<style>
     body {
