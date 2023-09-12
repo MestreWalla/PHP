@@ -15,7 +15,7 @@ if ($conexao) {
     $endereco = $_POST['endereco'];
 
     // Insere os dados na tabela do banco
-    $sql = "INSERT INTO clientes (nome,email,data_nascimento,endereco) VALUES ('$nome','$email','$data_nascimento','$endereco')";
+    $sql = "INSERT INTO cliente (nome, email, dataNasc, endereco) VALUES ('$nome','$email','$data_nascimento','$endereco')";
     mysqli_query($conexao, $sql);
 
     // Verifica se a inserção foi bem sucedida
