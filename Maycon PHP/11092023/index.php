@@ -11,7 +11,7 @@
             <h1>Cadastro de Cliente</h1>
             <input type="text" name="nome" placeholder="Nome">
             <input type="email" name="email" placeholder="E-mail">
-            <input type="date" name="data_nascimento" placeholder="Data de nascimento">
+            <input type="date" name="dataNasc" placeholder="Data de nascimento">
             <input type="text" name="endereco" placeholder="Endereço">
             <input type="submit" value="Enviar">
         </div>
