@@ -1,17 +1,8 @@
 <?php
-function divisaoPorSubtracoesSucessivas($maior, $menor) {
-    $resultado = 0;
-    
-    while ($maior >= $menor) {
-        $maior -= $menor;
-        $resultado++;
-    }
-    
-    return $resultado;
-}
+include 'Function.php';
 
-$maior = 20; // Maior número
-$menor = 4; // Menor número
+$maior = $_POST['maior']; // Maior número
+$menor = $_POST['menor']; // Menor número
 $resultadoDivisao = divisaoPorSubtracoesSucessivas($maior, $menor);
 
 echo "Resultado da divisão: " . $resultadoDivisao;

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles.css">
     <title>Exercicios</title>
 </head>
+
 <body>
     <div class="container">
         <h2>Exercicio 01</h2>
@@ -14,18 +16,82 @@
                 quadrados da área a ser pintada. Considere que a cobertura da tinta é de 1 litro para
                 cada 3 metros quadrados e que a tinta é vendida em latas de 18 litros, que custam R$
                 80,00 ou em galões de 3,6 litros, que custam R$ 25,00.</p>
-                <p>Informe ao usuário as quantidades de tinta a serem compradas e os respectivos preços
-                    em 3 situações:</p>
-                    <p>➔ comprar apenas latas de 18 litros;
-                    ➔ comprar apenas galões de 3,6 litros;
-                    ➔ misturar latas e galões, de forma que o preço seja o menor.
-                    Acrescente 10% de folga e sempre arredonde os valores para cima, isto é, considere
-                    latas cheias.</p>
+            <p>Informe ao usuário as quantidades de tinta a serem compradas e os respectivos preços em 3 situações:</p>
+            <ul>
+                <li>comprar apenas latas de 18 litros;</li>
+                <li>comprar apenas galões de 3,6 litros;</li>
+                <li>misturar latas e galões, de forma que o preço seja o menor.</li>
+            </ul>
+            <p>Acrescente 10% de folga e sempre arredonde os valores para cima, isto é, considere latas cheias.</p>
+            
             <label for="quantidade">Quantidade:</label>
-            <input type="text" name="quantidade" placeholder="Digite a quantidade"/><br>
+            <input type="text" name="quantidade" placeholder="Digite a quantidade" /><br>
+
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
+
+    <div class="container">
+        <h2>Exercicio 02</h2>
+        <form action="Exercicio02.php" method="post">
+            <p>Leia dois números e faça a multiplicação entre eles por somas sucessivas.</p>
+            
+            <label for="numero01">valor 01:</label>
+            <input type="text" name="numero01" placeholder="Digite o primeiro valor" /><br>
+            
+            <label for="numero02">valor 02:</label>
+            <input type="text" name="numero02" placeholder="Digite o segundo valor" /><br>
+
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
+
+    <div class="container">
+        <h2>Exercicio 03</h2>
+        <form action="Exercicio03.php" method="post">
+            <p>Leia dois números e faça a divisão do maior pelo menor por subtrações sucessivas.</p>
+            
+            <label for="maior">valor 01:</label>
+            <input type="text" name="maior" placeholder="Digite o primeiro valor" /><br>
+            
+            <label for="menor">valor 02:</label>
+            <input type="text" name="menor" placeholder="Digite o segundo valor" /><br>
+
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
+
+    <div class="container">
+        <h2>Exercicio 04</h2>
+        <form action="Exercicio04.php" method="post">
+            <p>Calcule o fatorial de um número e mostre o resultado. Sabe-se que o fatorial de um
+                numero natural é dado por: n! = n * (n-1) * (n-2) * ... * 1. Por definição: 0! = 1 e 1! = 1.</p>
+            
+            <label for="fatorial">valor a calcular:</label>
+            <input type="text" name="fatorial" placeholder="Digite o valor" /><br>
+            
+            <input type="submit" value="Enviar">
+        </form>
+    </div>
+
+    <div class="container">
+        <h2>Exercicio 05</h2>
+        <form action="Exercicio05.php" method="post">
+            <p>Fazer um programa que leia os seguintes dados fornecidos pelo teclado:</p>
+            <ul>
+                <li>quilometragem percorrida por um carro;</li>
+                <li>consumo, em litros, do combustível gasto;</li>
+                <li>o preço do litro de combustível;</li>
+            </ul>
+            <p>O programa deve calcular e imprimir o consumo médio em km/l e o custo por
+                quilometro.</p>
+            
+            <label for="fatorial">valor a calcular:</label>
+            <input type="text" name="fatorial" placeholder="Digite o valor" /><br>
             
             <input type="submit" value="Enviar">
         </form>
     </div>
 </body>
+
 </html>

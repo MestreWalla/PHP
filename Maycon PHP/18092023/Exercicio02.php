@@ -1,19 +1,12 @@
 <?php
-function multiplicacaoPorSomasSucessivas($a, $b) {
-    $resultado = 0;
-    $i = 0;
-    
-    while ($i < $b) {
-        $resultado += $a;
-        $i++;
-    }
-    
-    return $resultado;
-}
+include 'Function.php';
 
-$a = 5; // Primeiro número
-$b = 3; // Segundo número
-$resultadoMultiplicacao = multiplicacaoPorSomasSucessivas($a, $b);
+// Exercicio02
+$numero01 = $_POST['numero01']; // Primeiro número
+$numero02 = $_POST['numero02']; // Segundo número
+
+$resultadoMultiplicacao = multiplicacaoPorSomasSucessivas($numero01, $numero02);
 
 echo "Resultado da multiplicação: " . $resultadoMultiplicacao;
+
 ?>
