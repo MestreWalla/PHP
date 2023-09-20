@@ -1,15 +1,9 @@
 <?php
-function verificarTriangulo($a, $b, $c) {
-    if ($a < ($b + $c) && $b < ($a + $c) && $c < ($a + $b)) {
-        return "Os lados formam um triângulo.";
-    } else {
-        return "Os lados não formam um triângulo.";
-    }
-}
+include 'Function.php';
 
-$a = 4; // Primeiro lado
-$b = 5; // Segundo lado
-$c = 7; // Terceiro lado
+$a = $_POST['valorA']; // Primeiro lado
+$b = $_POST['valorB']; // Segundo lado
+$c = $_POST['valorC']; // Terceiro lado
 $resultadoTriangulo = verificarTriangulo($a, $b, $c);
 
 echo $resultadoTriangulo;

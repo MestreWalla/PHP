@@ -1,9 +1,7 @@
 <?php
-function calcularPorcentagem($valor, $porcentagem) {
-    return ($porcentagem / 100) * $valor;
-}
+include 'Function.php';
 
-$valor = 1000; // Valor de entrada
+$valor = $_POST['numPorcento']; // Valor de entrada
 $porcentagem5 = calcularPorcentagem($valor, 5);
 $porcentagem50 = calcularPorcentagem($valor, 50);
 
