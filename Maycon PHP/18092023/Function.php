@@ -93,6 +93,18 @@ function verificarTriangulo($a, $b, $c) {
         return "Os lados não formam um triângulo.";
     }
 }
+function verificarTipoTriangulo($a, $b, $c) {
+    if ($a < ($b + $c) && $b < ($a + $c) && $c < ($a + $b)) {
+        return "O tipo do triângulo é: Escaleno."; // Triângulo válido, mas pode ser escaleno
+    } else if ($a == $b && $b == $c) {
+        return "O tipo do triângulo é: Equilátero."; // Todos os lados são iguais
+    } else if ($a == $b || $a == $c || $b == $c) {
+        return "O tipo do triângulo é: Isósceles."; // Dois lados são iguais
+    } else {
+        return "Não é um triângulo válido."; // Triângulo inválido
+    }
+}
+
 
 // EXERCICIO 07
 function nomeDoMes($numero) {

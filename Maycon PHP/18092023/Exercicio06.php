@@ -7,4 +7,6 @@ $c = $_POST['valorC']; // Terceiro lado
 $resultadoTriangulo = verificarTriangulo($a, $b, $c);
 
 echo $resultadoTriangulo;
+echo "<br>";
+echo verificarTipoTriangulo($a, $b, $c)
 ?>

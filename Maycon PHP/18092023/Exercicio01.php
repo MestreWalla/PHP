@@ -23,3 +23,4 @@ echo "ou comprar $opcao02" . " latas de 3,6 litros ";
 echo " com valor de: R$ " . ceil("$valor02") . ",00 ";
 echo melhorCompra($resultado) . ",00";
 echo "<hr>";
+?>
