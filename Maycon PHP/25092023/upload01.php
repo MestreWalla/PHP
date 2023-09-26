@@ -1,7 +1,7 @@
 <?php
 
 //pasta onde quer salvar os arquivos (obs.: permissoes de escrita habilitadas)
-$dir = "/imagens";
+$dir = "imagens/";
 
 // Recebendo o arquivo multipart
 $file = $_FILES["arquivo"];

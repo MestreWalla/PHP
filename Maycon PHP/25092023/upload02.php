@@ -7,7 +7,7 @@ if (isset($_POST['enviar-formulario'])):
     if(in_array($extensao, $formatos)):
         //echo "Existe";
         $pasta = "arquivos/";
-        $temporario = $_FILES['arquivo']['tpm_name'];
+        $temporario = $_FILES['arquivo']['tmp_name'];
         $novoNome = uniqid().".$extensao";
 
         if(move_uploaded_file($temporario, $pasta.$novoNome)):
@@ -21,4 +21,5 @@ if (isset($_POST['enviar-formulario'])):
     endif;
     echo $mensagem;
 endif;
-echo "<br> <a href='index.php'> << voltar </a>";
+echo "<br> <a href='index.html'> << voltar </a>";
+?>
