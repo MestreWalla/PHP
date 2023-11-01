@@ -8,4 +8,6 @@
     echo $_SESSION['username'] . "<br>";
     echo $_SESSION['password'] . "<br>";
 
+    echo session_id() . "<br>";
+
 ?>
