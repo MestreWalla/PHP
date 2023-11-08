@@ -86,6 +86,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             background-color: #0056b3;
         }
 
+        input[type="button"] {
+            background-color: #ff9500;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            margin-top: 5px;
+        }
+
+        input[type="button"]:hover {
+            background-color: #b36800;
+        }
+
         p.error-message {
             color: #ff0000;
             text-align: center;
