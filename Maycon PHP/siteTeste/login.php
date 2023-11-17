@@ -11,7 +11,6 @@ $conexao = mysqli_connect(HOST, USUARIO, SENHA, DB) or die ('Não foi possível 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usuario = $_POST['usuario'];
     $senha = $_POST['senha'];
-
     $query = "SELECT * FROM login WHERE user = '$usuario' AND pass = MD5('$senha')";
     $resultado = mysqli_query($conexao, $query);
 

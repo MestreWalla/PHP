@@ -119,6 +119,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="senha">Senha:</label>
             <input type="password" id="senha" name="senha" required>
 
+            <p>Ja possui cadastro? 
+            <a href="login.php">Clique aqui</a></p>
             <input type="submit" value="Cadastrar">
         </form>
     </div>
