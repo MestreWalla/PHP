@@ -3,15 +3,15 @@ session_start(); // Iniciar a sessão (se já não estiver iniciada)
 
 define('HOST', '127.0.0.1');
 define('USUARIO', 'root');
-define('SENHA', '');
-define('DB', 'aluno');
+define('SENHA', 'root');
+define('DB', 'sa3pwfe');
 
 $conexao = mysqli_connect(HOST, USUARIO, SENHA, DB) or die ('Não foi possível conectar');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usuario = $_POST['usuario'];
     $senha = $_POST['senha'];
-    $query = "SELECT * FROM login WHERE user = '$usuario' AND pass = MD5('$senha')";
+    $query = "SELECT * FROM clientes WHERE user = '$email' AND pass = MD5('$senha')";
     $resultado = mysqli_query($conexao, $query);
 
     if (mysqli_num_rows($resultado) == 1) {
@@ -112,8 +112,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h2>Login</h2>
         <?php if (isset($erro)) { echo '<p class="error-message">' . $erro . '</p>'; } ?>
         <form method="post">
-            <label for="usuario">Usuário:</label>
-            <input type="text" id="usuario" name="usuario" required>
+            <label for="email">E-mail:</label>
+            <input type="text" id="email" name="email" required>
 
             <label for="senha">Senha:</label>
             <input type="password" id="senha" name="senha" required>

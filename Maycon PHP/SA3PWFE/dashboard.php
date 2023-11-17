@@ -3,7 +3,7 @@
 $host = '127.0.0.1';
 $dbUsuario = 'root';
 $dbSenha = '';
-$nomeBanco = 'aluno';
+$nomeBanco = 'clientes';
 
 // Conexão com o banco de dados
 $conexao = new mysqli($host, $dbUsuario, $dbSenha, $nomeBanco);
