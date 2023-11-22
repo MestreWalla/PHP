@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            /* height: 100vh; */
         }
 
         .cadastro-container {
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            width: 600px;
+            max-width: 600px;
         }
 
         h2 {
@@ -74,13 +74,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         form {
             display: flex;
+            /* flex-direction: column; */
+            flex-wrap: wrap;
+
+        }
+
+        form div {
+            display: flex;
             flex-direction: column;
-            justify-content: flex-wrap;
+            justify-content: space-between;
+            width: 300px;
         }
 
         label {
             font-weight: bold;
             margin-bottom: 5px;
+            margin: 0 10px;
+            padding: 10px;
+            transform: translateY(20px);
+            background-color: white;
+            width: min-content;
         }
 
         input {
@@ -125,47 +138,49 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         } ?>
 
         <form method="post">
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required>
-
-            <label for="usuario">Usuário:</label>
-            <input type="text" id="usuario" name="usuario" required>
-
-            <label for="senha">Senha:</label>
-            <input type="password" id="senha" name="senha" required>
-
-            <label for="img">Imagem:</label>
-            <input type="text" id="img" name="img">
-
-            <label for="nascimento">Nascimento:</label>
-            <input type="text" id="nascimento" name="nascimento">
-
-            <label for="cpf">CPF:</label>
-            <input type="text" id="cpf" name="cpf">
-
-            <label for="rua">Rua:</label>
-            <input type="text" id="rua" name="rua">
-
-            <label for="n">N:</label>
-            <input type="text" id="n" name="n">
-
-            <label for="complemento">Complemento:</label>
-            <input type="text" id="complemento" name="complemento">
-
-            <label for="cidade">Cidade:</label>
-            <input type="text" id="cidade" name="cidade">
-
-            <label for="uf">UF:</label>
-            <input type="text" id="uf" name="uf">
-
-            <label for="cep">CEP:</label>
-            <input type="text" id="cep" name="cep">
-
-            <label for="email">E-mail:</label>
-            <input type="text" id="email" name="email" required>
-
-            <p>Já possui cadastro? 
-            <a href="login.php">Clique aqui</a></p>
+            <div>
+                <label for="nome">Nome:</label>
+                <input type="text" id="nome" name="nome" required>
+            </div>
+            <div> <label for="senha">Senha:</label>
+                <input type="password" id="senha" name="senha" required>
+            </div>
+            <div> <label for="confirmaSenha">Confirmar_senha:</label>
+                <input type="password" id="senha" name="senha" required>
+            </div>
+            <div> <label for="img">Imagem:</label>
+                <input type="text" id="img" name="img">
+            </div>
+            <div> <label for="nascimento">Nascimento:</label>
+                <input type="text" id="nascimento" name="nascimento">
+            </div>
+            <div> <label for="cpf">CPF:</label>
+                <input type="text" id="cpf" name="cpf">
+            </div>
+            <div> <label for="rua">Rua:</label>
+                <input type="text" id="rua" name="rua">
+            </div>
+            <div> <label for="n">N:</label>
+                <input type="text" id="n" name="n">
+            </div>
+            <div> <label for="complemento">Complemento:</label>
+                <input type="text" id="complemento" name="complemento">
+            </div>
+            <div> <label for="cidade">Cidade:</label>
+                <input type="text" id="cidade" name="cidade">
+            </div>
+            <div> <label for="uf">UF:</label>
+                <input type="text" id="uf" name="uf">
+            </div>
+            <div> <label for="cep">CEP:</label>
+                <input type="text" id="cep" name="cep">
+            </div>
+            <div> <label for="email">E-mail:</label>
+                <input type="text" id="email" name="email" required>
+            </div>
+            <p>Já possui cadastro?
+                <a href="login.php">Clique aqui</a>
+            </p>
             <input type="submit" value="Cadastrar">
         </form>
     </div>
