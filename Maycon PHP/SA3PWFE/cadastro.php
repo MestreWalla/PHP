@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             padding: 20px;
-            width: 300px;
+            width: 600px;
         }
 
         h2 {
@@ -74,13 +74,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         form {
             display: flex;
-            /* flex-direction: column; */
+            flex-direction: column;
             justify-content: flex-wrap;
         }
 
         label {
             font-weight: bold;
             margin-bottom: 5px;
+        }
+
+        input {
+            width: 250px;
         }
 
         input[type="text"],
@@ -115,9 +119,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="cadastro-container">
         <h2>Cadastro</h2>
+
         <?php if (isset($erro)) {
             echo '<p class="error-message">' . $erro . '</p>';
         } ?>
+
         <form method="post">
             <label for="nome">Nome:</label>
             <input type="text" id="nome" name="nome" required>
