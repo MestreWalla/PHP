@@ -15,3 +15,27 @@ Crie uma nova classe e exiba o menu com as seguintes operações:
 
 Execute o programa e teste as operações bancárias do menu informando
 os dados necessários para cada opção. Exibir o menu ao final de cada operação.
+<?php
+class cliente
+{
+    private $nome;
+    private $sobrenome;
+    private $cpf;
+    private $idade;
+    private $endereco;
+}
+public function __construct($nome, $sobrenome, $cpf, $idade, $endereco){
+    $this->setNome($nome);
+    $this->setSobreNome($sobreBome);
+    $this->setCpf($cpf);
+    $this->setIdade($idade);
+    $this->setEndereco($endereco);
+}
+class conta
+{
+    private $nConta;
+    private $saldo;
+    private $poupanca;
+    private $limite;
+    private $transacoes;
+}
