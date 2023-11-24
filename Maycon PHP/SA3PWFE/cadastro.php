@@ -70,6 +70,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         h2 {
             text-align: center;
+            font-size: 40px;
+        }
+
+        p {
+            text-align: center;
         }
 
         form {
@@ -84,6 +89,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             flex-direction: column;
             justify-content: space-between;
             width: 300px;
+            & p {
+                width: 100%;
+                text-align: center;
+            }
         }
 
         label {
@@ -132,6 +141,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="cadastro-container">
         <h2>Cadastro</h2>
+        <p>Preencha os campos com cuidado</p>
 
         <?php if (isset($erro)) {
             echo '<p class="error-message">' . $erro . '</p>';
@@ -160,7 +170,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div> <label for="rua">Rua:</label>
                 <input type="text" id="rua" name="rua">
             </div>
-            <div> <label for="n">N:</label>
+            <div> <label for="n">Nº:</label>
                 <input type="text" id="n" name="n">
             </div>
             <div> <label for="complemento">Complemento:</label>
@@ -175,13 +185,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <div> <label for="cep">CEP:</label>
                 <input type="text" id="cep" name="cep">
             </div>
-            <div> <label for="email">E-mail:</label>
+            <div> <label for="email">Email:</label>
                 <input type="text" id="email" name="email" required>
             </div>
+            <div>
             <p>Já possui cadastro?
                 <a href="login.php">Clique aqui</a>
             </p>
             <input type="submit" value="Cadastrar">
+            </div>
         </form>
     </div>
 </body>
