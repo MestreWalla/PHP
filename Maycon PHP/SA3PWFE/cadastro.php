@@ -89,10 +89,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             flex-direction: column;
             justify-content: space-between;
             width: 300px;
-            & p {
-                width: 100%;
-                text-align: center;
-            }
         }
 
         label {
@@ -125,6 +121,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border-radius: 5px;
             cursor: pointer;
             transition: background-color 0.3s;
+            width: 270px;
+            transform: translateY(-10px);
         }
 
         input[type="submit"]:hover {
