@@ -10,8 +10,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         // Configurações de conexão com o banco de dados
         $host = 'localhost';
-        $dbUsuario = 'seu_usuario';
-        $dbSenha = 'sua_senha';
+        $dbUsuario = 'root';
+        $dbSenha = '';
         $nomeBanco = 'sa3pwfe';
 
         // Conexão com o banco de dados
@@ -51,9 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Página de Cadastro</title>
     <style>
         body {
+            
             background-color: #f5f5f5;
             font-family: Arial, sans-serif;
             margin: 0;
+            margin-top: 200px;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -79,9 +81,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         form {
             display: flex;
-            /* flex-direction: column; */
             flex-wrap: wrap;
-
+            justify-content: center;
         }
 
         form div {
@@ -89,6 +90,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             flex-direction: column;
             justify-content: space-between;
             width: 300px;
+            & p {
+                transform: translateX(-15px);
+            }
         }
 
         label {
@@ -103,6 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         input {
             width: 250px;
+            
         }
 
         input[type="text"],
@@ -111,7 +116,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border: 1px solid #ccc;
             border-radius: 5px;
             margin-bottom: 10px;
+            &:hover {
+                border-color: #007bff;
+            }
         }
+        input:focus {
+                border-color: red;
+            }
 
         input[type="submit"] {
             background-color: #007bff;
