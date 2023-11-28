@@ -1,4 +1,4 @@
-Exercicio
+<!-- Exercicio
 Crie uma classe correspondente a uma conta de banco que tera as seguintes caracteristicas:
 -Atributos: nome, numero da conta, saldo.
 -Metodos: abrir conta, sacar, depositar, consultar `saldo, consultar
@@ -14,7 +14,7 @@ Crie uma nova classe e exiba o menu com as seguintes operações:
 6 - Sair.
 
 Execute o programa e teste as operações bancárias do menu informando
-os dados necessários para cada opção. Exibir o menu ao final de cada operação.
+os dados necessários para cada opção. Exibir o menu ao final de cada operação. -->
 
 <?php
 
@@ -92,10 +92,9 @@ class Cliente {
     }
 }
 
-// Exemplo de uso
+//Abrir conta
 $cliente = new Cliente("", "", "", "", "", "");
 $cliente->abrirConta();
 $cliente->consultarDadosCliente();
+$cliente->consultarSaldo();
 
-// Implementação da classe de menu e execução do programa não foram fornecidas no código original.
-// Você pode adicionar essa lógica conforme necessário para atender aos requisitos do menu.
