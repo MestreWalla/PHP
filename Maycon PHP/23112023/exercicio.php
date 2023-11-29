@@ -26,8 +26,9 @@ class Cliente {
     private $endereco;
     private $numeroConta;
     private $saldo;
+    private $senha;
 
-    public function __construct($nome, $sobrenome, $cpf, $idade, $endereco, $numeroConta) {
+    public function __construct($nome, $sobrenome, $cpf, $idade, $endereco, $numeroConta, $senha) {
         $this->nome = $nome;
         $this->sobrenome = $sobrenome;
         $this->cpf = $cpf;
@@ -35,20 +36,36 @@ class Cliente {
         $this->endereco = $endereco;
         $this->numeroConta = $numeroConta;
         $this->saldo = 100.00; // Saldo inicial de R$100,00
+        $this->senha = $senha;
     }
 
-    public function abrirConta() {
-        // Pedir variáveis para abrir conta
-        echo "Informe os dados para abrir a conta:\n";
-        $this->nome = readline("Nome: ");
-        $this->sobrenome = readline("Sobrenome: ");
+    public function getSenha(){return $this->senha;}
+   
+    public function setSenha($senha){return $this->senha = $senha;}
+
+    public function login() {
         $this->cpf = readline("CPF: ");
+        $this->senha = readline("SENHA: ");
+    }
+    public function abrirConta() {
+        echo "Informe os dados para abrir a conta:\n";
         $this->idade = readline("Idade: ");
-        $this->endereco = readline("Endereço: ");
-        $this->numeroConta = readline("Número da Conta: ");
 
         // Lógica para abrir conta com verificação de idade
         if($this->idade >= 18) {
+            $this->nome = readline("Nome: ");
+            $this->sobrenome = readline("Sobrenome: ");
+            $this->cpf = readline("CPF: ");
+            $this->endereco = readline("Endereço: ");
+            $this->numeroConta = readline("Número da Conta: ");
+            $senha = readline("");
+            $senhaR = readline("Repita a Senha: ");
+            if($this->senha == $senhaR){
+                $this->senha = $senha;
+            } else {
+                echo "Senhas não conferem, inicie novamente.";
+                $cliente->abrirConta();
+            }
             echo "Conta aberta com sucesso.\n";
         } else {
             echo "Cliente não atende à idade mínima para abrir uma conta.\n";
@@ -93,8 +110,8 @@ class Cliente {
 }
 
 //Abrir conta
-$cliente = new Cliente("", "", "", "", "", "");
+$cliente = new Cliente("", "", "", "", "", "", "");
 $cliente->abrirConta();
-$cliente->consultarDadosCliente();
-$cliente->consultarSaldo();
+// $cliente->consultarDadosCliente();
+// $cliente->consultarSaldo();
 
