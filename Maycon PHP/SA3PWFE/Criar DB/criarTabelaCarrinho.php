@@ -1,4 +1,18 @@
 <?php
+$servername = "127.0.0.1";
+$username = "root";
+$password = ''; // Substitua com sua senha
+$dbname = "sa3pwfe";
+
+// Cria a conexão
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Verifica a conexão
+if ($conn->connect_error) {
+    die("Conexão falhou: " . $conn->connect_error);
+}
+
+// Cria a tabela carrinho
 $sql_carrinho = "CREATE TABLE carrinho (
     id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     img VARCHAR(255),
@@ -13,3 +27,7 @@ if ($conn->query($sql_carrinho) === TRUE) {
 } else {
     echo "Erro ao criar tabela carrinho: " . $conn->error;
 }
+
+// Fecha a conexão
+$conn->close();
+?>
