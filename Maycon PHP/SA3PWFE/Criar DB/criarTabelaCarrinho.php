@@ -1,7 +1,7 @@
 <?php
 $servername = "127.0.0.1";
 $username = "root";
-$password = ''; // Substitua com sua senha
+$password = '';
 $dbname = "sa3pwfe";
 
 // Cria a conexão
