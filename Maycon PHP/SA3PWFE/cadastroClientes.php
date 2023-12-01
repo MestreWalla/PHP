@@ -1,10 +1,10 @@
 <?php
 $erro = '';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Valide os dados do formulário
     $nome = isset($_POST['nome']) ? $_POST['nome'] : '';
-    $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : '';
+    $sobrenome = isset($_POST['sobrenome']) ? $_POST['sobrenome'] : '';
     $senha = isset($_POST['senha']) ? $_POST['senha'] : '';
     $confirmaSenha = isset($_POST['confirmaSenha']) ? $_POST['confirmaSenha'] : '';
     $img = isset($_POST['img']) ? $_POST['img'] : '';
@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = isset($_POST['email']) ? $_POST['email'] : '';
 
     // Verifica se as senhas coincidem
-    if ($senha !== $confirmaSenha) {
+    if($senha !== $confirmaSenha) {
         $erro = 'As senhas não coincidem.';
     } else {
         // Configurações de conexão com o banco de dados
@@ -31,44 +31,50 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Conexão com o banco de dados
         $conexao = new mysqli($host, $dbUsuario, $dbSenha, $nomeBanco);
 
-        if ($conexao->connect_error) {
-            die("Erro na conexão com o banco de dados: " . $conexao->connect_error);
+        if($conexao->connect_error) {
+            die("Erro na conexão com o banco de dados: ".$conexao->connect_error);
         }
 
-        // Query SQL para inserção de dados
-$query = "INSERT INTO clientes 
+        // Verifica se o email já existe no banco de dados
+        $verificarEmail = "SELECT email FROM clientes WHERE email = ?";
+        $stmtVerificar = $conexao->prepare($verificarEmail);
+        $stmtVerificar->bind_param('s', $email);
+        $stmtVerificar->execute();
+        $stmtVerificar->store_result();
+
+        if($stmtVerificar->num_rows > 0) {
+            $erro = 'Este email já está cadastrado. Por favor, escolha outro.';
+        } else {
+            // Query SQL para inserção de dados
+            $query = "INSERT INTO clientes 
 (img, admin, nome, sobrenome, nascimento, cpf, rua, n, complemento, cidade, uf, cep, email, senha, usuario) 
 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-$stmt = $conexao->prepare($query);
+            $stmt = $conexao->prepare($query);
 
-// Definindo $admin como null (pode ser ajustado dependendo dos requisitos)
-$admin = null;
+            // Definindo $admin como null (pode ser ajustado dependendo dos requisitos)
+            $admin = null;
 
-// Garantindo que 'sobrenome' não seja nulo
-$sobrenome = ''; // Pode ajustar conforme necessário
+            // Hash da senha
+            $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
-// Hash da senha
-$senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+            // Ajuste da string de definição de tipo e vinculação
+            $stmt->bind_param('ssssssssssssssb', $img, $admin, $nome, $sobrenome, $nascimento, $cpf, $rua, $n, $complemento, $cidade, $uf, $cep, $email, $senhaHash, $sobrenome);
 
-// Ajuste da string de definição de tipo e vinculação
-$stmt->bind_param('ssssssssssssssb', $img, $admin, $nome, $sobrenome, $nascimento, $cpf, $rua, $n, $complemento, $cidade, $uf, $cep, $email, $senhaHash, $usuario);
+            if($stmt->execute()) {
+                // Cadastro bem-sucedido
+                header('Location: login.php'); // Redirecionar para a página de login
+                exit();
+            } else {
+                $erro = 'Erro ao cadastrar. Tente novamente.';
+            }
+        }
 
-if ($stmt->execute()) {
-// Cadastro bem-sucedido
-header('Location: login.php'); // Redirecionar para a página de login
-exit();
-} else {
-$erro = 'Erro ao cadastrar. Tente novamente.';
-}
-
-// Fechar a conexão com o banco de dados
-$conexao->close();
-
+        // Fechar a conexão com o banco de dados
+        $conexao->close();
     }
 }
 ?>
-
 
 
 <!DOCTYPE html>
@@ -174,6 +180,7 @@ $conexao->close();
         .error-message {
             color: red;
             text-align: center;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -193,13 +200,13 @@ $conexao->close();
                 <input type="text" id="nome" name="nome" required>
             </div>
             <div>
-                <label for="usuario">Usuário:</label>
-                <input type="text" id="usuario" name="usuario" required>
+                <label for="sobrenome">Sobrenome:</label>
+                <input type="text" id="sobrenome" name="sobrenome" required>
             </div>
             <div> <label for="senha">Senha:</label>
                 <input type="password" id="senha" name="senha" required>
             </div>
-            <div> <label for="confirmaSenha">Confirmar Senha:</label>
+            <div> <label for="confirmaSenha">Confirmar_Senha:</label>
                 <input type="password" id="confirmaSenha" name="confirmaSenha" required>
             </div>
             <div> <label for="img">Imagem:</label>

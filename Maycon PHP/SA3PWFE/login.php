@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         if (password_verify($senha, $row['senha'])) {
             // As credenciais são válidas
             $_SESSION['email'] = $email; // Alterado de 'usuario' para 'email'
-            header('Location: dashboard.php'); // Redirecionar para a página de painel
+            header('Location: dashboardClientes.php'); // Redirecionar para a página de painel
             exit();
         }
     }
