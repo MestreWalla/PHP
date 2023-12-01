@@ -9,15 +9,15 @@ define('DB', 'sa3pwfe');
 $conexao = mysqli_connect(HOST, USUARIO, SENHA, DB) or die('Não foi possível conectar');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $usuario = $_POST['usuario'];
+    $email = $_POST['email']; // Alterado de 'usuario' para 'email'
     $senha = $_POST['senha'];
 
     // Use uma consulta preparada para evitar injeção de SQL
-    $query = "SELECT senha FROM clientes WHERE usuario = ?";
+    $query = "SELECT senha FROM clientes WHERE email = ?"; // Alterado de 'usuario' para 'email'
     $stmt = mysqli_prepare($conexao, $query);
 
     // Associe os parâmetros
-    mysqli_stmt_bind_param($stmt, "s", $usuario);
+    mysqli_stmt_bind_param($stmt, "s", $email); // Alterado de 'usuario' para 'email'
 
     // Execute a consulta
     mysqli_stmt_execute($stmt);
@@ -29,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Verifique se a senha está correta usando password_verify
         if (password_verify($senha, $row['senha'])) {
             // As credenciais são válidas
-            $_SESSION['usuario'] = $usuario;
+            $_SESSION['email'] = $email; // Alterado de 'usuario' para 'email'
             header('Location: dashboard.php'); // Redirecionar para a página de painel
             exit();
         }
@@ -41,12 +41,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Feche a consulta preparada
     mysqli_stmt_close($stmt);
 }
+
+// Fechar a conexão com o banco de dados
+mysqli_close($conexao);
 ?>
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página de Login</title>
     <style>
         body {
@@ -129,12 +134,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <body>
     <div class="login-container">
         <h2>Login</h2>
-        <?php if(isset($erro)) {
-            echo '<p class="error-message">'.$erro.'</p>';
+        <?php if (isset($erro)) {
+            echo '<p class="error-message">' . $erro . '</p>';
         } ?>
-        <form method="post">
-            <label for="usuario">Usuário:</label>
-            <input type="text" id="usuario" name="usuario" required>
+         <form method="post">
+            <label for="email">Email:</label> <!-- Alterado de 'usuario' para 'email' -->
+            <input type="text" id="email" name="email" required> <!-- Alterado de 'usuario' para 'email' -->
 
             <label for="senha">Senha:</label>
             <input type="password" id="senha" name="senha" required>
@@ -142,7 +147,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="submit" value="Login">
             <a href="cadastro.php"><input type="button" value="Cadastro"></a>
         </form>
-
     </div>
 </body>
 
