@@ -19,7 +19,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = isset($_POST['email']) ? $_POST['email'] : '';
 
     // Verifica se as senhas coincidem
-    $erro = '';
     if ($senha !== $confirmaSenha) {
         $erro = 'As senhas não coincidem.';
     } else {
@@ -37,29 +36,40 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
 
         // Query SQL para inserção de dados
-        $query = "INSERT INTO clientes (img, admin, nome, sobrenome, nascimento, cpf, rua, n, complemento, cidade, uf, cep, email, senha, usuario) 
-                   VALUES (?, false, ?, '', '', '', ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $conexao->prepare($query);
+$query = "INSERT INTO clientes 
+(img, admin, nome, sobrenome, nascimento, cpf, rua, n, complemento, cidade, uf, cep, email, senha, usuario) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        // Hash da senha
-        $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+$stmt = $conexao->prepare($query);
 
-        // Ajuste da string de definição de tipo e vinculação
-        $stmt->bind_param('ssssssssssssssss', $img, $nome, $rua, $n, $complemento, $cidade, $uf, $cep, $email, $senhaHash, $usuario);
+// Definindo $admin como null (pode ser ajustado dependendo dos requisitos)
+$admin = null;
 
-        if ($stmt->execute()) {
-            // Cadastro bem-sucedido
-            header('Location: login.php'); // Redirecionar para a página de login
-            exit();
-        } else {
-            $erro = 'Erro ao cadastrar. Tente novamente.';
-        }
+// Garantindo que 'sobrenome' não seja nulo
+$sobrenome = ''; // Pode ajustar conforme necessário
 
-        // Fechar a conexão com o banco de dados
-        $conexao->close();
+// Hash da senha
+$senhaHash = password_hash($senha, PASSWORD_DEFAULT);
+
+// Ajuste da string de definição de tipo e vinculação
+$stmt->bind_param('ssssssssssssssb', $img, $admin, $nome, $sobrenome, $nascimento, $cpf, $rua, $n, $complemento, $cidade, $uf, $cep, $email, $senhaHash, $usuario);
+
+if ($stmt->execute()) {
+// Cadastro bem-sucedido
+header('Location: login.php'); // Redirecionar para a página de login
+exit();
+} else {
+$erro = 'Erro ao cadastrar. Tente novamente.';
+}
+
+// Fechar a conexão com o banco de dados
+$conexao->close();
+
     }
 }
 ?>
+
+
 
 <!DOCTYPE html>
 <html>
@@ -118,9 +128,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             margin-bottom: 5px;
             margin: 0 10px;
             padding: 10px;
-            transform: translateY(20px);
+            transform: translateY(1.8px);
             background-color: white;
             width: min-content;
+            height: 0px;
         }
 
         input {

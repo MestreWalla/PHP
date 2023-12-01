@@ -6,28 +6,46 @@ define('USUARIO', 'root');
 define('SENHA', '');
 define('DB', 'sa3pwfe');
 
-$conexao = mysqli_connect(HOST, USUARIO, SENHA, DB) or die ('Não foi possível conectar');
+$conexao = mysqli_connect(HOST, USUARIO, SENHA, DB) or die('Não foi possível conectar');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $usuario = $_POST['usuario'];
     $senha = $_POST['senha'];
-    $query = "SELECT * FROM clientes WHERE user = '$email' AND pass = MD5('$senha')";
-    $resultado = mysqli_query($conexao, $query);
 
-    if (mysqli_num_rows($resultado) == 1) {
-        // As credenciais são válidas
-        $_SESSION['usuario'] = $usuario;
-        header('Location: dashboard.php'); // Redirecionar para a página de painel
-        exit();
-    } else {
-        $erro = 'Credenciais inválidas. Tente novamente.';
+    // Use uma consulta preparada para evitar injeção de SQL
+    $query = "SELECT senha FROM clientes WHERE usuario = ?";
+    $stmt = mysqli_prepare($conexao, $query);
+
+    // Associe os parâmetros
+    mysqli_stmt_bind_param($stmt, "s", $usuario);
+
+    // Execute a consulta
+    mysqli_stmt_execute($stmt);
+
+    // Obtenha o resultado
+    $resultado = mysqli_stmt_get_result($stmt);
+
+    if ($row = mysqli_fetch_assoc($resultado)) {
+        // Verifique se a senha está correta usando password_verify
+        if (password_verify($senha, $row['senha'])) {
+            // As credenciais são válidas
+            $_SESSION['usuario'] = $usuario;
+            header('Location: dashboard.php'); // Redirecionar para a página de painel
+            exit();
+        }
     }
-}
 
+    // Se chegou aqui, as credenciais são inválidas
+    $erro = 'Credenciais inválidas. Tente novamente.';
+
+    // Feche a consulta preparada
+    mysqli_stmt_close($stmt);
+}
 ?>
 
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>Página de Login</title>
     <style>
@@ -107,21 +125,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         }
     </style>
 </head>
+
 <body>
     <div class="login-container">
         <h2>Login</h2>
-        <?php if (isset($erro)) { echo '<p class="error-message">' . $erro . '</p>'; } ?>
+        <?php if(isset($erro)) {
+            echo '<p class="error-message">'.$erro.'</p>';
+        } ?>
         <form method="post">
-            <label for="email">E-mail:</label>
-            <input type="text" id="email" name="email" required>
+            <label for="usuario">Usuário:</label>
+            <input type="text" id="usuario" name="usuario" required>
 
             <label for="senha">Senha:</label>
             <input type="password" id="senha" name="senha" required>
 
             <input type="submit" value="Login">
-            <a href="cadastro.php"><input type="button" value="cadastro"></a>
+            <a href="cadastro.php"><input type="button" value="Cadastro"></a>
         </form>
+
     </div>
 </body>
-</html>
 
+</html>
