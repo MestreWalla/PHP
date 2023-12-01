@@ -1,13 +1,14 @@
 <?php
-$servername = "127.0.0.1";
-$username = "admin";
-$password = '';
-$dbname = "sa3pwfe";
+// Configurações de conexão com o banco de dados
+$host = 'localhost';
+$dbUsuario = 'root';
+$dbSenha = '';
+$nomeBanco = 'sa3pwfe';
 
-// Cria a conexão
-$conn = new mysqli($servername, $username, $password, 'sa3pwfe');
+// Conexão com o banco de dados
+$conexao = new mysqli($host, $dbUsuario, $dbSenha, $nomeBanco);
 
-// Verifica a conexão
-if ($conn->connect_error) {
-    die("Conexão falhou: " . $conn->connect_error);
+if($conexao->connect_error) {
+    die("Erro na conexão com o banco de dados: ".$conexao->connect_error);
 }
+?>

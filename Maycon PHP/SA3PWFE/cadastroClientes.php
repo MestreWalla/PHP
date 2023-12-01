@@ -22,15 +22,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     if($senha !== $confirmaSenha) {
         $erro = 'As senhas não coincidem.';
     } else {
-        // Configurações de conexão com o banco de dados
-        $host = 'localhost';
-        $dbUsuario = 'root';
-        $dbSenha = '';
-        $nomeBanco = 'sa3pwfe';
-
-        // Conexão com o banco de dados
-        $conexao = new mysqli($host, $dbUsuario, $dbSenha, $nomeBanco);
-
+        session_start();
+        include('conectar.php');
+        
         if($conexao->connect_error) {
             die("Erro na conexão com o banco de dados: ".$conexao->connect_error);
         }

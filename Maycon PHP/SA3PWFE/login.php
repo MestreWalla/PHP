@@ -1,23 +1,17 @@
 <?php
-session_start(); // Iniciar a sessão (se já não estiver iniciada)
-
-define('HOST', '127.0.0.1');
-define('USUARIO', 'root');
-define('SENHA', '');
-define('DB', 'sa3pwfe');
-
-$conexao = mysqli_connect(HOST, USUARIO, SENHA, DB) or die('Não foi possível conectar');
+session_start();
+include('conectar.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = $_POST['email']; // Alterado de 'usuario' para 'email'
+    $email = $_POST['email'];
     $senha = $_POST['senha'];
 
     // Use uma consulta preparada para evitar injeção de SQL
-    $query = "SELECT senha FROM clientes WHERE email = ?"; // Alterado de 'usuario' para 'email'
+    $query = "SELECT senha FROM clientes WHERE email = ?";
     $stmt = mysqli_prepare($conexao, $query);
 
     // Associe os parâmetros
-    mysqli_stmt_bind_param($stmt, "s", $email); // Alterado de 'usuario' para 'email'
+    mysqli_stmt_bind_param($stmt, "s", $email);
 
     // Execute a consulta
     mysqli_stmt_execute($stmt);
@@ -29,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Verifique se a senha está correta usando password_verify
         if (password_verify($senha, $row['senha'])) {
             // As credenciais são válidas
-            $_SESSION['email'] = $email; // Alterado de 'usuario' para 'email'
+            $_SESSION['email'] = $email;
             header('Location: dashboardClientes.php'); // Redirecionar para a página de painel
             exit();
         }
