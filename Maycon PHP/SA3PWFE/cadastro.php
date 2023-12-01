@@ -1,7 +1,7 @@
 <?php
 $erro = '';
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Valide os dados do formulário
     $nome = isset($_POST['nome']) ? $_POST['nome'] : '';
     $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : '';
@@ -20,7 +20,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     // Verifica se as senhas coincidem
     $erro = '';
-    if($senha !== $confirmaSenha) {
+    if ($senha !== $confirmaSenha) {
         $erro = 'As senhas não coincidem.';
     } else {
         // Configurações de conexão com o banco de dados
@@ -32,22 +32,22 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Conexão com o banco de dados
         $conexao = new mysqli($host, $dbUsuario, $dbSenha, $nomeBanco);
 
-        if($conexao->connect_error) {
-            die("Erro na conexão com o banco de dados: ".$conexao->connect_error);
+        if ($conexao->connect_error) {
+            die("Erro na conexão com o banco de dados: " . $conexao->connect_error);
         }
 
         // Query SQL para inserção de dados
         $query = "INSERT INTO clientes (img, admin, nome, sobrenome, nascimento, cpf, rua, n, complemento, cidade, uf, cep, email, senha, usuario) 
-          VALUES (?, false, ?, '', '', '', ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                   VALUES (?, false, ?, '', '', '', ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conexao->prepare($query);
 
         // Hash da senha
         $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
         // Ajuste da string de definição de tipo e vinculação
-        $stmt->bind_param('sssssssssssssss', $img, $nome, $rua, $n, $complemento, $cidade, $uf, $cep, $email, $senhaHash, $usuario);
+        $stmt->bind_param('ssssssssssssssss', $img, $nome, $rua, $n, $complemento, $cidade, $uf, $cep, $email, $senhaHash, $usuario);
 
-        if($stmt->execute()) {
+        if ($stmt->execute()) {
             // Cadastro bem-sucedido
             header('Location: login.php'); // Redirecionar para a página de login
             exit();
@@ -60,6 +60,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html>
 
