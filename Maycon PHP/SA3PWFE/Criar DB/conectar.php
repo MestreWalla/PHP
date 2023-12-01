@@ -2,7 +2,7 @@
 $servername = "127.0.0.1";
 $username = "root";
 $password = '';
-$dbname = "sa3pwfe";
+// $dbname = "sa3pwfe";
 
 // Cria a conexão
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -13,7 +13,7 @@ if ($conn->connect_error) {
 }
 
 // Cria o banco de dados
-$sql_create_db = "CREATE DATABASE IF NOT EXISTS $dbname";
+$sql_create_db = 'CREATE DATABASE IF NOT EXISTS sa3pwfe';
 if ($conn->query($sql_create_db) === TRUE) {
     echo "Banco de dados criado com sucesso";
 } else {

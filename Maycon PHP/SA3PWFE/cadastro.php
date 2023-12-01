@@ -1,12 +1,27 @@
 <?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    // Valide os dados do formulário
-    $nome = $_POST['nome'];
-    $usuario = $_POST['usuario'];
-    $senha = $_POST['senha'];
+$erro = '';
 
-    if (empty($nome) || empty($usuario) || empty($senha)) {
-        $erro = 'Todos os campos são obrigatórios.';
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
+    // Valide os dados do formulário
+    $nome = isset($_POST['nome']) ? $_POST['nome'] : '';
+    $usuario = isset($_POST['usuario']) ? $_POST['usuario'] : '';
+    $senha = isset($_POST['senha']) ? $_POST['senha'] : '';
+    $confirmaSenha = isset($_POST['confirmaSenha']) ? $_POST['confirmaSenha'] : '';
+    $img = isset($_POST['img']) ? $_POST['img'] : '';
+    $nascimento = isset($_POST['nascimento']) ? $_POST['nascimento'] : '';
+    $cpf = isset($_POST['cpf']) ? $_POST['cpf'] : '';
+    $rua = isset($_POST['rua']) ? $_POST['rua'] : '';
+    $n = isset($_POST['n']) ? $_POST['n'] : '';
+    $complemento = isset($_POST['complemento']) ? $_POST['complemento'] : '';
+    $cidade = isset($_POST['cidade']) ? $_POST['cidade'] : '';
+    $uf = isset($_POST['uf']) ? $_POST['uf'] : '';
+    $cep = isset($_POST['cep']) ? $_POST['cep'] : '';
+    $email = isset($_POST['email']) ? $_POST['email'] : '';
+
+    // Verifica se as senhas coincidem
+    $erro = '';
+    if($senha !== $confirmaSenha) {
+        $erro = 'As senhas não coincidem.';
     } else {
         // Configurações de conexão com o banco de dados
         $host = 'localhost';
@@ -17,21 +32,22 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Conexão com o banco de dados
         $conexao = new mysqli($host, $dbUsuario, $dbSenha, $nomeBanco);
 
-        if ($conexao->connect_error) {
-            die("Erro na conexão com o banco de dados: " . $conexao->connect_error);
+        if($conexao->connect_error) {
+            die("Erro na conexão com o banco de dados: ".$conexao->connect_error);
         }
 
         // Query SQL para inserção de dados
-        $query = "INSERT INTO clientes (img, admin, nome, sobrenome, nascimento, cpf, rua, n, complemento, cidade, uf, cep, email, senha) 
-                  VALUES (?, false, ?, '', '', '', '', '', '', '', '', '', ?, ?)";
+        $query = "INSERT INTO clientes (img, admin, nome, sobrenome, nascimento, cpf, rua, n, complemento, cidade, uf, cep, email, senha, usuario) 
+          VALUES (?, false, ?, '', '', '', ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $conexao->prepare($query);
 
         // Hash da senha
         $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
-        $stmt->bind_param('ssssss', $nome, $usuario, $senhaHash);
+        // Ajuste da string de definição de tipo e vinculação
+        $stmt->bind_param('sssssssssssssss', $img, $nome, $rua, $n, $complemento, $cidade, $uf, $cep, $email, $senhaHash, $usuario);
 
-        if ($stmt->execute()) {
+        if($stmt->execute()) {
             // Cadastro bem-sucedido
             header('Location: login.php'); // Redirecionar para a página de login
             exit();
@@ -51,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <title>Página de Cadastro</title>
     <style>
         body {
-            
+
             background-color: #f5f5f5;
             font-family: Arial, sans-serif;
             margin: 0;
@@ -90,6 +106,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             flex-direction: column;
             justify-content: space-between;
             width: 300px;
+
             & p {
                 transform: translateX(-15px);
             }
@@ -107,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         input {
             width: 250px;
-            
+
         }
 
         input[type="text"],
@@ -116,13 +133,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             border: 1px solid #ccc;
             border-radius: 5px;
             margin-bottom: 10px;
+
             &:hover {
                 border-color: #007bff;
             }
         }
+
         input:focus {
-                border-color: red;
-            }
+            border-color: red;
+        }
 
         input[type="submit"] {
             background-color: #007bff;
@@ -152,8 +171,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <h2>Cadastro</h2>
         <p>Preencha os campos com cuidado</p>
 
-        <?php if (isset($erro)) {
-            echo '<p class="error-message">' . $erro . '</p>';
+        <?php if(isset($erro)) {
+            echo '<p class="error-message">'.$erro.'</p>';
         } ?>
 
         <form method="post">
@@ -161,11 +180,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="nome">Nome:</label>
                 <input type="text" id="nome" name="nome" required>
             </div>
+            <div>
+                <label for="usuario">Usuário:</label>
+                <input type="text" id="usuario" name="usuario" required>
+            </div>
             <div> <label for="senha">Senha:</label>
                 <input type="password" id="senha" name="senha" required>
             </div>
-            <div> <label for="confirmaSenha">Confirmar_senha:</label>
-                <input type="password" id="senha" name="senha" required>
+            <div> <label for="confirmaSenha">Confirmar Senha:</label>
+                <input type="password" id="confirmaSenha" name="confirmaSenha" required>
             </div>
             <div> <label for="img">Imagem:</label>
                 <input type="text" id="img" name="img">
@@ -198,10 +221,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="text" id="email" name="email" required>
             </div>
             <div>
-            <p>Já possui cadastro?
-                <a href="login.php">Clique aqui</a>
-            </p>
-            <input type="submit" value="Cadastrar">
+                <p>Já possui cadastro?
+                    <a href="login.php">Clique aqui</a>
+                </p>
+                <input type="submit" value="Cadastrar">
             </div>
         </form>
     </div>
