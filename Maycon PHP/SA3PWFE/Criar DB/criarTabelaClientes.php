@@ -18,7 +18,7 @@ $tableExists = $conn->query("SHOW TABLES LIKE 'clientes'");
 if ($tableExists->num_rows == 0) {
     // Cria a tabela clientes
     $sql_clientes = "CREATE TABLE clientes (
-        id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        -- id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         img VARCHAR(255),
         admim BOOLEAN,
         nome VARCHAR(30) NOT NULL,
@@ -31,7 +31,7 @@ if ($tableExists->num_rows == 0) {
         cidade VARCHAR(50),
         uf VARCHAR(2),
         cep VARCHAR(10),
-        email VARCHAR(50) UNIQUE,
+        email VARCHAR(50) UNIQUE UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         senha VARCHAR(255) NOT NULL,
         usuario VARCHAR(30) NOT NULL
     )";
