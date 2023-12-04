@@ -41,19 +41,19 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         } else {
             // Query SQL para inserção de dados
             $query = "INSERT INTO clientes 
-(img, admin, nome, sobrenome, nascimento, cpf, rua, n, complemento, cidade, uf, cep, email, senha, usuario) 
+(img, adm, nome, sobrenome, nascimento, cpf, rua, n, complemento, cidade, uf, cep, email, senha, usuario) 
 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             $stmt = $conexao->prepare($query);
 
-            // Definindo $admin como null (pode ser ajustado dependendo dos requisitos)
-            $admin = null;
+            // Definindo $adm como null (pode ser ajustado dependendo dos requisitos)
+            $adm = null;
 
             // Hash da senha
             $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
 
             // Ajuste da string de definição de tipo e vinculação
-            $stmt->bind_param('ssssssssssssssb', $img, $admin, $nome, $sobrenome, $nascimento, $cpf, $rua, $n, $complemento, $cidade, $uf, $cep, $email, $senhaHash, $sobrenome);
+            $stmt->bind_param('ssssssssssssssb', $img, $adm, $nome, $sobrenome, $nascimento, $cpf, $rua, $n, $complemento, $cidade, $uf, $cep, $email, $senhaHash, $sobrenome);
 
             if($stmt->execute()) {
                 // Cadastro bem-sucedido

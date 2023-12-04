@@ -20,7 +20,7 @@ if ($tableExists->num_rows == 0) {
     $sql_clientes = "CREATE TABLE clientes (
         -- id INT(6) UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         img VARCHAR(255),
-        admim BOOLEAN,
+        adm BOOLEAN,
         nome VARCHAR(30) NOT NULL,
         sobrenome VARCHAR(30) NOT NULL,
         nascimento DATE,

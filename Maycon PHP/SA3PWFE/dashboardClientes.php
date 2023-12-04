@@ -1,31 +1,32 @@
 <?php
-session_start();
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 include('conectar.php');
 
 // Função para excluir um usuário pelo e-mail
-if (isset($_GET['delete'])) {
+if(isset($_GET['delete'])) {
     $emailUsuario = urldecode($_GET['delete']);
 
-    if ($emailUsuario) {
+    if($emailUsuario) {
         $confirmacao = true; // ou qualquer lógica que você queira para a confirmação
 
-        if ($confirmacao) {
+        if($confirmacao) {
             // Executar a consulta de exclusão usando declaração preparada
             $queryDelete = "DELETE FROM clientes WHERE email = ?";
             $stmtDelete = $conexao->prepare($queryDelete);
 
             // Verificar se a preparação da consulta foi bem-sucedida
-            if ($stmtDelete) {
+            if($stmtDelete) {
                 $stmtDelete->bind_param('s', $emailUsuario);
                 $stmtDelete->execute();
 
-                // Verificar se a exclusão foi bem-sucedida
-                if ($stmtDelete->affected_rows > 0) {
+                if($stmtDelete->affected_rows > 0) {
                     $stmtDelete->close();
                     header('Location: dashboardClientes.php?delete_success=true');
                     exit();
                 } else {
-                    echo "Erro ao excluir o usuário. Erro: " . $stmtDelete->error;
+                    echo "Erro ao excluir o usuário. Erro: ".$stmtDelete->error;
                 }
             } else {
                 echo "Erro na preparação da consulta de exclusão.";
@@ -39,14 +40,34 @@ if (isset($_GET['delete'])) {
     }
 }
 
-// Função para obter os detalhes de um cliente pelo ID
-function obterClientePorID($conexao, $idCliente)
+// Função para obter os detalhes de um cliente pelo email
+function obterClientePorEmail($conexao, $emailCliente)
 {
-    $stmt = $conexao->prepare("SELECT * FROM clientes WHERE id_cliente = ?");
-    $stmt->bind_param('i', $idCliente);
+    $stmt = $conexao->prepare("SELECT * FROM clientes WHERE email = ?");
+
+    // Tratar erro na preparação da consulta
+    if (!$stmt) {
+        die("Erro na preparação da consulta: " . $conexao->error);
+    }
+
+    $stmt->bind_param('s', $emailCliente);
     $stmt->execute();
+
+    // Tratar erro na execução da consulta
+    if ($stmt->errno) {
+        die("Erro na execução da consulta: " . $stmt->error);
+    }
+
     $resultado = $stmt->get_result();
+
+    // Tratar erro ao obter o resultado da consulta
+    if (!$resultado) {
+        die("Erro ao obter resultado da consulta: " . $stmt->error);
+    }
+
     $cliente = $resultado->fetch_assoc();
+
+    // Fechar o statement apenas se foi bem-sucedido
     $stmt->close();
 
     return $cliente;
@@ -56,7 +77,6 @@ function obterClientePorID($conexao, $idCliente)
 $stmt = $conexao->prepare("SELECT * FROM clientes");
 $stmt->execute();
 $resultado = $stmt->get_result();
-
 ?>
 
 <!DOCTYPE html>
@@ -128,7 +148,6 @@ $resultado = $stmt->get_result();
     <h2>Lista de Usuários</h2>
     <table>
         <tr>
-            <th>ID</th>
             <th>Admin</th>
             <th>Nome</th>
             <th>Sobrenome</th>
@@ -139,20 +158,19 @@ $resultado = $stmt->get_result();
             <th>Ações</th>
         </tr>
         <?php
-        if ($resultado->num_rows > 0) {
-            while ($row = $resultado->fetch_assoc()) {
+        if($resultado->num_rows > 0) {
+            while($row = $resultado->fetch_assoc()) {
                 echo "<tr>";
-                echo "<td>" . (isset($row['id_cliente']) ? $row['id_cliente'] : '') . "</td>";
-                echo "<td>" . ($row['admin'] ? 'Sim' : 'Não') . "</td>";
-                echo "<td>" . $row['nome'] . "</td>";
-                echo "<td>" . $row['sobrenome'] . "</td>";
-                echo "<td>" . $row['nascimento'] . "</td>";
-                echo "<td>" . $row['cpf'] . "</td>";
-                echo "<td>" . $row['rua'] . ", " . $row['n'] . " - " . $row['cep'] . " - " . $row['cidade'] . " - " . $row['uf'] . " - " . $row['complemento'] . "</td>";
-                echo "<td>" . $row['email'] . "</td>";
+                echo "<td>".($row['adm'] ? 'Sim' : 'Não')."</td>";
+                echo "<td>".$row['nome']."</td>";
+                echo "<td>".$row['sobrenome']."</td>";
+                echo "<td>".$row['nascimento']."</td>";
+                echo "<td>".$row['cpf']."</td>";
+                echo "<td>".$row['rua'].", ".$row['n']." - ".$row['cep']." - ".$row['cidade']." - ".$row['uf']." - ".$row['complemento']."</td>";
+                echo "<td>".$row['email']."</td>";
                 echo "<td>
-                <a class='edit-button' href='editar_usuario.php?id=" . (isset($row['id_cliente']) ? $row['id_cliente'] : '') . "'>Editar</a>
-                <a class='delete-button' href='lista_usuarios.php?delete=" . urlencode($row['email']) . "' onclick='return confirmDelete(this)'>Excluir</a>
+                <a class='edit-button' href='editar_usuario.php?email=".urlencode($row['email'])."'>Editar</a>
+                <a class='delete-button' href='dashboardClientes.php?delete=".urlencode($row['email'])."' onclick='return confirmDelete(this)'>Excluir</a>
                 </td>";
                 echo "</tr>";
             }
@@ -163,16 +181,17 @@ $resultado = $stmt->get_result();
     </table>
 </body>
 <script>
-function confirmDelete(link) {
-            if (confirm("Tem certeza que deseja excluir este cliente?")) {
-                window.location.href = link.href;
-            }
-            return false;
+    function confirmDelete(link) {
+        if (confirm("Tem certeza que deseja excluir este cliente?")) {
+            window.location.href = link.href;
         }
+        return false;
+    }
 </script>
+
 </html>
 
 <?php
 // Fechar a conexão com o banco de dados
-$conexao->close();
+// $conexao->close();
 ?>
