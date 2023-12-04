@@ -31,7 +31,7 @@ if ($tableExists->num_rows == 0) {
         cidade VARCHAR(50),
         uf VARCHAR(2),
         cep VARCHAR(10),
-        email VARCHAR(50) UNIQUE UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+        email VARCHAR(50) UNIQUE PRIMARY KEY,
         senha VARCHAR(255) NOT NULL,
         usuario VARCHAR(30) NOT NULL
     )";
