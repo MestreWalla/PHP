@@ -8,9 +8,9 @@ if (!$conexao) {
 }
 
 // Iniciar a sessão se não estiver iniciada
-if (session_status() == PHP_SESSION_NONE) {
-    session_start();
-}
+// if (session_status() == PHP_SESSION_NONE) {
+//     session_start();
+// }
 
 // Função para excluir um usuário pelo e-mail
 if(isset($_GET['delete'])) {
