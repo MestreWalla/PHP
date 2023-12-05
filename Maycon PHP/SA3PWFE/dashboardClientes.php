@@ -1,16 +1,12 @@
 <?php
+session_start();
 include('conectar.php');
 
-// Verificar se a conexão está aberta
-if (!$conexao) {
+// Verificar se o usuário está autenticado
+if (!isset($_SESSION['email'])) {
     header('Location: login.php');
     exit();
 }
-
-// Iniciar a sessão se não estiver iniciada
-// if (session_status() == PHP_SESSION_NONE) {
-//     session_start();
-// }
 
 // Função para excluir um usuário pelo e-mail
 if(isset($_GET['delete'])) {
@@ -49,28 +45,27 @@ if(isset($_GET['delete'])) {
 }
 
 // Função para obter os detalhes de um cliente pelo email
-function obterClientePorEmail($conexao, $emailCliente)
-{
+function obterClientePorEmail($conexao, $emailCliente) {
     $stmt = $conexao->prepare("SELECT * FROM clientes WHERE email = ?");
 
     // Tratar erro na preparação da consulta
-    if (!$stmt) {
-        die("Erro na preparação da consulta: " . $conexao->error);
+    if(!$stmt) {
+        die("Erro na preparação da consulta: ".$conexao->error);
     }
 
     $stmt->bind_param('s', $emailCliente);
     $stmt->execute();
 
     // Tratar erro na execução da consulta
-    if ($stmt->errno) {
-        die("Erro na execução da consulta: " . $stmt->error);
+    if($stmt->errno) {
+        die("Erro na execução da consulta: ".$stmt->error);
     }
 
     $resultado = $stmt->get_result();
 
     // Tratar erro ao obter o resultado da consulta
-    if (!$resultado) {
-        die("Erro ao obter resultado da consulta: " . $stmt->error);
+    if(!$resultado) {
+        die("Erro ao obter resultado da consulta: ".$stmt->error);
     }
 
     $cliente = $resultado->fetch_assoc();

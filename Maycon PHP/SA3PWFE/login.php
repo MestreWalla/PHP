@@ -1,7 +1,8 @@
 <?php
+session_start();
 include('conectar.php');
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $senha = $_POST['senha'];
 
@@ -9,37 +10,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $query = "SELECT senha FROM clientes WHERE email = ?";
     $stmt = mysqli_prepare($conexao, $query);
 
-    // Associe os parâmetros
-    mysqli_stmt_bind_param($stmt, "s", $email);
+    if($stmt) {
+        mysqli_stmt_bind_param($stmt, "s", $email);
+        mysqli_stmt_execute($stmt);
+        $resultado = mysqli_stmt_get_result($stmt);
 
-    // Execute a consulta
-    mysqli_stmt_execute($stmt);
-
-    // Obtenha o resultado
-    $resultado = mysqli_stmt_get_result($stmt);
-
-    if ($row = mysqli_fetch_assoc($resultado)) {
-        // Verifique se a senha está correta usando password_verify
-        if (password_verify($senha, $row['senha'])) {
-            // As credenciais são válidas
-            session_start(); // Inicia a sessão aqui
-            $_SESSION['email'] = $email;
-            header('Location: dashboardClientes.php'); // Redirecionar para a página de painel
-            exit();
+        if($resultado && $row = mysqli_fetch_assoc($resultado)) {
+            // Verifique se a senha está correta usando password_verify
+            if(password_verify($senha, $row['senha'])) {
+                $_SESSION['email'] = $email;
+                header('Location: dashboardClientes.php');
+                exit();
+            } else {
+                $erro = 'Credenciais inválidas. Tente novamente.';
+            }
+        } else {
+            $erro = 'Credenciais inválidas. Tente novamente.';
         }
+
+        mysqli_stmt_close($stmt);
+    } else {
+        // Possível registro de erro em log
+        $erro = 'Erro na preparação da consulta de login.';
     }
-
-    // Se chegou aqui, as credenciais são inválidas
-    $erro = 'Credenciais inválidas. Tente novamente.';
-
-    // Feche a consulta preparada
-    mysqli_stmt_close($stmt);
 }
 
-// Não feche a conexão aqui para mantê-la aberta durante a verificação de login
+// Feche a conexão com o banco de dados (pode não ser necessário dependendo do restante do seu código)
 // mysqli_close($conexao);
 ?>
-
 
 
 <!DOCTYPE html>
@@ -128,11 +126,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
-    <div class="login-container">
+<div class="login-container">
         <h2>Login</h2>
-        <?php if(isset($erro)) {
-            echo '<p class="error-message">'.$erro.'</p>';
-        } ?>
+        <?php if (isset($erro)) : ?>
+            <p class="error-message">Credenciais inválidas. Tente novamente.</p>
+        <?php endif; ?>
         <form method="post">
             <label for="email">Email:</label> <!-- Alterado de 'usuario' para 'email' -->
             <input type="text" id="email" name="email" required> <!-- Alterado de 'usuario' para 'email' -->
