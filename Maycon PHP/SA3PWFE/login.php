@@ -1,5 +1,4 @@
 <?php
-session_start();
 include('conectar.php');
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -23,6 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         // Verifique se a senha está correta usando password_verify
         if (password_verify($senha, $row['senha'])) {
             // As credenciais são válidas
+            session_start(); // Inicia a sessão aqui
             $_SESSION['email'] = $email;
             header('Location: dashboardClientes.php'); // Redirecionar para a página de painel
             exit();
@@ -36,9 +36,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     mysqli_stmt_close($stmt);
 }
 
-// Fechar a conexão com o banco de dados
-mysqli_close($conexao);
+// Não feche a conexão aqui para mantê-la aberta durante a verificação de login
+// mysqli_close($conexao);
 ?>
+
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -128,10 +130,10 @@ mysqli_close($conexao);
 <body>
     <div class="login-container">
         <h2>Login</h2>
-        <?php if (isset($erro)) {
-            echo '<p class="error-message">' . $erro . '</p>';
+        <?php if(isset($erro)) {
+            echo '<p class="error-message">'.$erro.'</p>';
         } ?>
-         <form method="post">
+        <form method="post">
             <label for="email">Email:</label> <!-- Alterado de 'usuario' para 'email' -->
             <input type="text" id="email" name="email" required> <!-- Alterado de 'usuario' para 'email' -->
 

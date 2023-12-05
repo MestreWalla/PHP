@@ -1,8 +1,16 @@
 <?php
+include('conectar.php');
+
+// Verificar se a conexão está aberta
+if (!$conexao) {
+    header('Location: login.php');
+    exit();
+}
+
+// Iniciar a sessão se não estiver iniciada
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
-include('conectar.php');
 
 // Função para excluir um usuário pelo e-mail
 if(isset($_GET['delete'])) {
