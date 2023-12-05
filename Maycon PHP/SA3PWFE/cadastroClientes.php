@@ -46,8 +46,8 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             $stmt = $conexao->prepare($query);
 
-            // Definindo $adm como null (pode ser ajustado dependendo dos requisitos)
-            $adm = null;
+            // Definindo $adm como 0 (não adm)
+            $adm = 0;
 
             // Hash da senha
             $senhaHash = password_hash($senha, PASSWORD_DEFAULT);

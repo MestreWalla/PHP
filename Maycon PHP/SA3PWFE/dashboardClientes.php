@@ -164,7 +164,7 @@ $resultado = $stmt->get_result();
         if($resultado->num_rows > 0) {
             while($row = $resultado->fetch_assoc()) {
                 echo "<tr>";
-                echo "<td>".($row['adm'] ? 'Sim' : 'Não')."</td>";
+                echo "<td>".($row['adm'] ? 'Sim' : 'Nao')."</td>";
                 echo "<td>".$row['nome']."</td>";
                 echo "<td>".$row['sobrenome']."</td>";
                 echo "<td>".$row['nascimento']."</td>";
