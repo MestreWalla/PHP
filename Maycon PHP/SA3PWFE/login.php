@@ -139,7 +139,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             <input type="password" id="senha" name="senha" required>
 
             <input type="submit" value="Login">
-            <a href="cadastro.php"><input type="button" value="Cadastro"></a>
+            <a href="Cadastros/cadastroClientes.php"><input type="button" value="Cadastro"></a>
         </form>
     </div>
 </body>

@@ -24,7 +24,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     } else {
         session_start();
         include('conectar.php');
-        
+
         if($conexao->connect_error) {
             die("Erro na conexão com o banco de dados: ".$conexao->connect_error);
         }
@@ -40,13 +40,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             $erro = 'Este email já está cadastrado. Por favor, escolha outro.';
         } else {
             // Query SQL para inserção de dados
-            $query = "INSERT INTO clientes 
-(img, adm, nome, sobrenome, nascimento, cpf, rua, n, complemento, cidade, uf, cep, email, senha, usuario) 
-VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            $query = "INSERT INTO clientes (img, adm, nome, sobrenome, nascimento, cpf, rua, n, complemento, cidade, uf, cep, email, senha, usuario) 
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             $stmt = $conexao->prepare($query);
 
-            // Definindo $adm como 0 (não adm)
+            // Definindo usuario como não administrador por padrao
             $adm = 0;
 
             // Hash da senha
@@ -69,7 +68,6 @@ VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html>
