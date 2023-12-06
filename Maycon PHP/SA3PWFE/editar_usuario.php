@@ -3,16 +3,12 @@ session_start();
 include('conectar.php');
 include('dashboardClientes.php');
 
-// Verifique se a sessão já está iniciada no arquivo dashboardClientes.php antes de incluí-lo
-
 if(isset($_GET['email'])) {
     $emailCliente = urldecode($_GET['email']);
     $cliente = obterClientePorEmail($conexao, $emailCliente);
 
     if($cliente) {
-        // Restante do seu código para exibir o formulário de edição
         ?>
-
         <!DOCTYPE html>
         <html lang="pt-br">
 
@@ -62,7 +58,7 @@ if(isset($_GET['email'])) {
 
         <body>
             <h2>Editar Usuário</h2>
-            <form action="processar_edicao.php" method="post">
+            <form action="processar_edicao.php" method="post" enctype="multipart/form-data">
                 <table>
                     <tr>
                         <th>Admin</th>
@@ -71,12 +67,15 @@ if(isset($_GET['email'])) {
                         <th>Nascimento</th>
                         <th>CPF</th>
                         <th>Endereço</th>
+                        <th>E-mail</th>
                         <th>Ações</th>
                     </tr>
-                    <td><input type="text" name="adm" value="<?= htmlspecialchars($cliente['adm']) ?>" required></td>
+                    <td><input type="checkbox" name="adm" <?= $cliente['adm'] ? 'checked' : '' ?>></td>
                     <td><input type="text" name="nome" value="<?= htmlspecialchars($cliente['nome']) ?>" required></td>
-                    <td><input type="text" name="sobrenome" value="<?= htmlspecialchars($cliente['sobrenome']) ?>" required></td>
-                    <td><input type="text" name="nascimento" value="<?= htmlspecialchars($cliente['nascimento']) ?>" required></td>
+                    <td><input type="text" name="sobrenome" value="<?= htmlspecialchars($cliente['sobrenome']) ?>" required>
+                    </td>
+                    <td><input type="text" name="nascimento" value="<?= htmlspecialchars($cliente['nascimento']) ?>" required>
+                    </td>
                     <td><input type="text" name="cpf" value="<?= htmlspecialchars($cliente['cpf']) ?>" required></td>
                     <td>
                         <input type="text" name="rua" value="<?= htmlspecialchars($cliente['rua']) ?>" required>
@@ -86,13 +85,23 @@ if(isset($_GET['email'])) {
                         <input type="text" name="uf" value="<?= htmlspecialchars($cliente['uf']) ?>" required>
                         <input type="text" name="complemento" value="<?= htmlspecialchars($cliente['complemento']) ?>" required>
                     </td>
+                    <td><input type="text" name="email" value="<?= htmlspecialchars($cliente['email']) ?>" required></td>
                     <td style="display: flex; gap: 10px;">
                         <input type="submit" value="Salvar" class="salvar">
-                        <a href="http://localhost/php/Maycon%20PHP/SA3PWFE/dashboardClientes.php"><input type="button"
-                                value="Cancelar" class="cancelar"></a>
+                        <a href="http://localhost/php/Maycon%20PHP/SA3PWFE/dashboardClientes.php">
+                            <input type="button" value="Cancelar" class="cancelar">
+                        </a>
                     </td>
                 </table>
             </form>
+            <script>
+                function confirmarCancelar() {
+                    if (confirm("Tem certeza que deseja cancelar a edição?")) {
+                        window.location.href = 'dashboardClientes.php';
+                    }
+                    return false;
+                }
+            </script>
         </body>
 
         </html>
