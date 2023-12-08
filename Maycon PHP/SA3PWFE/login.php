@@ -2,7 +2,7 @@
 session_start();
 include('conectar.php');
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $senha = $_POST['senha'];
 
@@ -10,14 +10,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $query = "SELECT senha FROM clientes WHERE email = ?";
     $stmt = mysqli_prepare($conexao, $query);
 
-    if($stmt) {
+    if ($stmt) {
         mysqli_stmt_bind_param($stmt, "s", $email);
         mysqli_stmt_execute($stmt);
         $resultado = mysqli_stmt_get_result($stmt);
 
-        if($resultado && $row = mysqli_fetch_assoc($resultado)) {
+        if ($resultado && $row = mysqli_fetch_assoc($resultado)) {
             // Verifique se a senha está correta usando password_verify
-            if(password_verify($senha, $row['senha'])) {
+            if (password_verify($senha, $row['senha'])) {
                 $_SESSION['email'] = $email;
                 header('Location: dashboardClientes.php');
                 exit();
@@ -46,6 +46,8 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/root.css">
+    <link rel="stylesheet" href="styles/header.css">
     <title>Página de Login</title>
     <style>
         body {
@@ -126,9 +128,41 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 </head>
 
 <body>
-<div class="login-container">
+    <header class="header">
+        <div class="menu01">
+            <img src="img/logo.png" alt="Logo">
+            <div class="buscar">
+                <input type="PESQUISAR" placeholder="BUSCAR">
+                <img src="img/lupa.png" alt="">
+            </div>
+            <a href="http://localhost/php/Maycon%20PHP/siteTeste/login.php"><button class="logar" id="logar">
+                    <img src="img/user.png" alt="">
+                    <p>Entre ou Cadastre-se</p>
+                </button></a>
+
+        </div>
+        <div class="menu02">
+            <a href="index.html" class="menuItem" id="menuItem">
+                <img src="img/cao01.png" alt="">
+                <h5>Inicio</h5>
+            </a>
+            <a href="loja.html" class="menuItem" id="menuItem">
+                <img src="img/cao02.png" alt="">
+                <h5>Loja</h5>
+            </a>
+            <a href="serviços.html" class="menuItem" id="menuItem">
+                <img src="img/cao03.png" alt="">
+                <h5>Serviços</h5>
+            </a>
+            <a href="sobre.html" class="menuItem" id="menuItem">
+                <img src="img/cao04.png" alt="">
+                <h5>Sobre</h5>
+            </a>
+    </header>
+
+    <div class="login-container">
         <h2>Login</h2>
-        <?php if (isset($erro)) : ?>
+        <?php if (isset($erro)): ?>
             <p class="error-message">Credenciais inválidas. Tente novamente.</p>
         <?php endif; ?>
         <form method="post">

@@ -3,11 +3,11 @@ session_start();
 include('conectar.php');
 include('dashboardClientes.php');
 
-if(isset($_GET['email'])) {
+if (isset($_GET['email'])) {
     $emailCliente = urldecode($_GET['email']);
     $cliente = obterClientePorEmail($conexao, $emailCliente);
 
-    if($cliente) {
+    if ($cliente) {
         ?>
         <!DOCTYPE html>
         <html lang="pt-br">
@@ -57,7 +57,7 @@ if(isset($_GET['email'])) {
         </head>
 
         <body>
-            <h2>Editar Usuário</h2>
+            <h2 class="titulo">Editar Usuário</h2>
             <form action="processar_edicao.php" method="post" enctype="multipart/form-data">
                 <table>
                     <tr>

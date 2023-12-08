@@ -12,28 +12,28 @@ if (!isset($_SESSION['email'])) {
 }
 
 // Função para excluir um usuário pelo e-mail
-if(isset($_GET['delete'])) {
+if (isset($_GET['delete'])) {
     $emailUsuario = urldecode($_GET['delete']);
 
-    if($emailUsuario) {
+    if ($emailUsuario) {
         $confirmacao = true; // ou qualquer lógica que você queira para a confirmação
 
-        if($confirmacao) {
+        if ($confirmacao) {
             // Executar a consulta de exclusão usando declaração preparada
             $queryDelete = "DELETE FROM clientes WHERE email = ?";
             $stmtDelete = $conexao->prepare($queryDelete);
 
             // Verificar se a preparação da consulta foi bem-sucedida
-            if($stmtDelete) {
+            if ($stmtDelete) {
                 $stmtDelete->bind_param('s', $emailUsuario);
                 $stmtDelete->execute();
 
-                if($stmtDelete->affected_rows > 0) {
+                if ($stmtDelete->affected_rows > 0) {
                     $stmtDelete->close();
                     header('Location: dashboardClientes.php?delete_success=true');
                     exit();
                 } else {
-                    echo "Erro ao excluir o usuário. Erro: ".$stmtDelete->error;
+                    echo "Erro ao excluir o usuário. Erro: " . $stmtDelete->error;
                 }
             } else {
                 echo "Erro na preparação da consulta de exclusão.";
@@ -48,27 +48,28 @@ if(isset($_GET['delete'])) {
 }
 
 // Função para obter os detalhes de um cliente pelo email
-function obterClientePorEmail($conexao, $emailCliente) {
+function obterClientePorEmail($conexao, $emailCliente)
+{
     $stmt = $conexao->prepare("SELECT * FROM clientes WHERE email = ?");
 
     // Tratar erro na preparação da consulta
-    if(!$stmt) {
-        die("Erro na preparação da consulta: ".$conexao->error);
+    if (!$stmt) {
+        die("Erro na preparação da consulta: " . $conexao->error);
     }
 
     $stmt->bind_param('s', $emailCliente);
     $stmt->execute();
 
     // Tratar erro na execução da consulta
-    if($stmt->errno) {
-        die("Erro na execução da consulta: ".$stmt->error);
+    if ($stmt->errno) {
+        die("Erro na execução da consulta: " . $stmt->error);
     }
 
     $resultado = $stmt->get_result();
 
     // Tratar erro ao obter o resultado da consulta
-    if(!$resultado) {
-        die("Erro ao obter resultado da consulta: ".$stmt->error);
+    if (!$resultado) {
+        die("Erro ao obter resultado da consulta: " . $stmt->error);
     }
 
     $cliente = $resultado->fetch_assoc();
@@ -89,17 +90,20 @@ $resultado = $stmt->get_result();
 <html>
 
 <head>
+    <link rel="stylesheet" href="styles/siderbar.css">
     <title>Lista de Usuários</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: white;
         }
 
         table {
             border-collapse: collapse;
             width: 100%;
+            margin-left: 60px;
         }
 
         th,
@@ -151,7 +155,26 @@ $resultado = $stmt->get_result();
 </head>
 
 <body>
-    <h2>Lista de Usuários</h2>
+    <header class="Sidebar">
+        <img src="img/logo.png" alt="" class="logo">
+        <div class="links">
+            <img src="Img/home.png" alt="">
+            <a href="dashboardClientes.php">Clientes</a>
+        </div>
+        <div class="links">
+            <img src="img/java.png" alt="">
+            <a href="Cadastros/cadastroProdutos.php">Cadastro de Produtos</a>
+        </div>
+        <div class="links">
+            <img src="img/php.png" alt="">
+            <a href="dashboardClientes.php">Loja</a>
+        </div>
+        <div class="links">
+            <img src="img/swift.png" alt="">
+            <a href="dashboardClientes.php">Carrinho</a>
+        </div>
+    </header>
+    <h2 class="titulo">Lista de Usuários</h2>
     <table>
         <tr>
             <th>Admin</th>
@@ -164,19 +187,19 @@ $resultado = $stmt->get_result();
             <th>Ações</th>
         </tr>
         <?php
-        if($resultado->num_rows > 0) {
-            while($row = $resultado->fetch_assoc()) {
+        if ($resultado->num_rows > 0) {
+            while ($row = $resultado->fetch_assoc()) {
                 echo "<tr>";
-                echo "<td>".($row['adm'] ? 'Sim' : 'Nao')."</td>";
-                echo "<td>".$row['nome']."</td>";
-                echo "<td>".$row['sobrenome']."</td>";
-                echo "<td>".$row['nascimento']."</td>";
-                echo "<td>".$row['cpf']."</td>";
-                echo "<td>".$row['rua'].", ".$row['n']." - ".$row['cep']." - ".$row['cidade']." - ".$row['uf']." - ".$row['complemento']."</td>";
-                echo "<td>".$row['email']."</td>";
+                echo "<td>" . ($row['adm'] ? 'Sim' : 'Nao') . "</td>";
+                echo "<td>" . $row['nome'] . "</td>";
+                echo "<td>" . $row['sobrenome'] . "</td>";
+                echo "<td>" . $row['nascimento'] . "</td>";
+                echo "<td>" . $row['cpf'] . "</td>";
+                echo "<td>" . $row['rua'] . ", " . $row['n'] . " - " . $row['cep'] . " - " . $row['cidade'] . " - " . $row['uf'] . " - " . $row['complemento'] . "</td>";
+                echo "<td>" . $row['email'] . "</td>";
                 echo "<td>
-                <a class='edit-button' href='editar_usuario.php?email=".urlencode($row['email'])."'>Editar</a>
-                <a class='delete-button' href='dashboardClientes.php?delete=".urlencode($row['email'])."' onclick='return confirmDelete(this)'>Excluir</a>
+                <a class='edit-button' href='editar_usuario.php?email=" . urlencode($row['email']) . "'>Editar</a>
+                <a class='delete-button' href='dashboardClientes.php?delete=" . urlencode($row['email']) . "' onclick='return confirmDelete(this)'>Excluir</a>
                 </td>";
                 echo "</tr>";
             }

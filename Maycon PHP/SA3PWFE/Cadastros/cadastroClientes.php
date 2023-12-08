@@ -1,7 +1,7 @@
 <?php
 $erro = '';
 
-if($_SERVER['REQUEST_METHOD'] == 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     // Valide os dados do formulário
     $nome = isset($_POST['nome']) ? $_POST['nome'] : '';
     $sobrenome = isset($_POST['sobrenome']) ? $_POST['sobrenome'] : '';
@@ -19,14 +19,14 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = isset($_POST['email']) ? $_POST['email'] : '';
 
     // Verifica se as senhas coincidem
-    if($senha !== $confirmaSenha) {
+    if ($senha !== $confirmaSenha) {
         $erro = 'As senhas não coincidem.';
     } else {
         session_start();
-        include('conectar.php');
+        include('../conectar.php');
 
-        if($conexao->connect_error) {
-            die("Erro na conexão com o banco de dados: ".$conexao->connect_error);
+        if ($conexao->connect_error) {
+            die("Erro na conexão com o banco de dados: " . $conexao->connect_error);
         }
 
         // Verifica se o email já existe no banco de dados
@@ -36,7 +36,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         $stmtVerificar->execute();
         $stmtVerificar->store_result();
 
-        if($stmtVerificar->num_rows > 0) {
+        if ($stmtVerificar->num_rows > 0) {
             $erro = 'Este email já está cadastrado. Por favor, escolha outro.';
         } else {
             // Query SQL para inserção de dados
@@ -54,9 +54,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Ajuste da string de definição de tipo e vinculação
             $stmt->bind_param('ssssssssssssssb', $img, $adm, $nome, $sobrenome, $nascimento, $cpf, $rua, $n, $complemento, $cidade, $uf, $cep, $email, $senhaHash, $sobrenome);
 
-            if($stmt->execute()) {
+            if ($stmt->execute()) {
                 // Cadastro bem-sucedido
-                header('Location: login.php'); // Redirecionar para a página de login
+                header('Location: ../login.php'); // Redirecionar para a página de login
                 exit();
             } else {
                 $erro = 'Erro ao cadastrar. Tente novamente.';
@@ -73,10 +73,11 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html>
 
 <head>
+    <link rel="stylesheet" href="../styles/root.css">
+    <link rel="stylesheet" href="../styles/header.css">
     <title>Página de Cadastro</title>
     <style>
         body {
-
             background-color: #f5f5f5;
             font-family: Arial, sans-serif;
             margin: 0;
@@ -172,18 +173,48 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
         .error-message {
             color: red;
             text-align: center;
-            margin-top: 10px;
         }
     </style>
 </head>
 
 <body>
+    <header class="header">
+        <div class="menu01">
+            <img src="img/logo.png" alt="Logo">
+            <div class="buscar">
+                <input type="PESQUISAR" placeholder="BUSCAR">
+                <img src="img/lupa.png" alt="">
+            </div>
+            <a href="http://localhost/php/Maycon%20PHP/siteTeste/login.php"><button class="logar" id="logar">
+                    <img src="img/user.png" alt="">
+                    <p>Entre ou Cadastre-se</p>
+                </button></a>
+
+        </div>
+        <div class="menu02">
+            <a href="index.html" class="menuItem" id="menuItem">
+                <img src="img/cao01.png" alt="">
+                <h5>Inicio</h5>
+            </a>
+            <a href="loja.html" class="menuItem" id="menuItem">
+                <img src="img/cao02.png" alt="">
+                <h5>Loja</h5>
+            </a>
+            <a href="serviços.html" class="menuItem" id="menuItem">
+                <img src="img/cao03.png" alt="">
+                <h5>Serviços</h5>
+            </a>
+            <a href="sobre.html" class="menuItem" id="menuItem">
+                <img src="img/cao04.png" alt="">
+                <h5>Sobre</h5>
+            </a>
+    </header>
     <div class="cadastro-container">
         <h2>Cadastro</h2>
         <p>Preencha os campos com cuidado</p>
 
-        <?php if(isset($erro)) {
-            echo '<p class="error-message">'.$erro.'</p>';
+        <?php if (isset($erro)) {
+            echo '<p class="error-message">' . $erro . '</p>';
         } ?>
 
         <form method="post">
@@ -195,45 +226,57 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <label for="sobrenome">Sobrenome:</label>
                 <input type="text" id="sobrenome" name="sobrenome" required>
             </div>
-            <div> <label for="senha">Senha:</label>
+            <div>
+                <label for="senha">Senha:</label>
                 <input type="password" id="senha" name="senha" required>
             </div>
-            <div> <label for="confirmaSenha">Confirmar_Senha:</label>
+            <div>
+                <label for="confirmaSenha">Confirmar_Senha:</label>
                 <input type="password" id="confirmaSenha" name="confirmaSenha" required>
             </div>
-            <div> <label for="img">Imagem:</label>
+            <div>
+                <label for="img">Imagem:</label>
                 <input type="text" id="img" name="img">
             </div>
-            <div> <label for="nascimento">Nascimento:</label>
+            <div>
+                <label for="nascimento">Nascimento:</label>
                 <input type="text" id="nascimento" name="nascimento">
             </div>
-            <div> <label for="cpf">CPF:</label>
+            <div>
+                <label for="cpf">CPF:</label>
                 <input type="text" id="cpf" name="cpf">
             </div>
-            <div> <label for="rua">Rua:</label>
+            <div>
+                <label for="rua">Rua:</label>
                 <input type="text" id="rua" name="rua">
             </div>
-            <div> <label for="n">Nº:</label>
+            <div>
+                <label for="n">Nº:</label>
                 <input type="text" id="n" name="n">
             </div>
-            <div> <label for="complemento">Complemento:</label>
+            <div>
+                <label for="complemento">Complemento:</label>
                 <input type="text" id="complemento" name="complemento">
             </div>
-            <div> <label for="cidade">Cidade:</label>
+            <div>
+                <label for="cidade">Cidade:</label>
                 <input type="text" id="cidade" name="cidade">
             </div>
-            <div> <label for="uf">UF:</label>
+            <div>
+                <label for="uf">UF:</label>
                 <input type="text" id="uf" name="uf">
             </div>
-            <div> <label for="cep">CEP:</label>
+            <div>
+                <label for="cep">CEP:</label>
                 <input type="text" id="cep" name="cep">
             </div>
-            <div> <label for="email">Email:</label>
+            <div>
+                <label for="email">Email:</label>
                 <input type="text" id="email" name="email" required>
             </div>
             <div>
                 <p>Já possui cadastro?
-                    <a href="login.php">Clique aqui</a>
+                    <a href="../login.php">Clique aqui</a>
                 </p>
                 <input type="submit" value="Cadastrar">
             </div>
