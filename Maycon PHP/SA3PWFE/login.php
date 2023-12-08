@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Verifique se a senha está correta usando password_verify
             if (password_verify($senha, $row['senha'])) {
                 $_SESSION['email'] = $email;
-                header('Location: /Dashboard/dashboardClientes.php');
+                header('Location: ./Dashboard/dashboardClientes.php');
                 exit();
             } else {
                 $erro = 'Credenciais inválidas. Tente novamente.';

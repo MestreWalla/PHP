@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-include('conectar.php');
+include('../conectar.php');
 
 // Verificar se o usuário está autenticado
 if (!isset($_SESSION['email'])) {
@@ -90,7 +90,7 @@ $resultado = $stmt->get_result();
 <html>
 
 <head>
-    <link rel="stylesheet" href="styles/siderbar.css">
+    <link rel="stylesheet" href="../styles/siderbar.css">
     <title>Lista de Usuários</title>
     <style>
         body {
