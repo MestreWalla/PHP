@@ -185,7 +185,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                 <input type="PESQUISAR" placeholder="BUSCAR">
                 <img src="img/lupa.png" alt="">
             </div>
-            <a href="http://localhost/php/Maycon%20PHP/siteTeste/login.php"><button class="logar" id="logar">
+            <a href="http://localhost/php/Maycon%20PHP/SA3PWFE/login.php"><button class="logar" id="logar">
                     <img src="img/user.png" alt="">
                     <p>Entre ou Cadastre-se</p>
                 </button></a>
